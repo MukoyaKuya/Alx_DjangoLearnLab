@@ -1,3 +1,5 @@
-# Create a new Book
+# Create a Book
+
+```python
 from bookshelf.models import Book
-book = Book.objects.create(title="Django Basics", author="Delton", year=2025)
+Book.objects.create(title="1984", author="George Orwell", published_year=1949)
