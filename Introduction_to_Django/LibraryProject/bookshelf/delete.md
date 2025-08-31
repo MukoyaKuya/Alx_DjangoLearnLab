@@ -1,14 +1,12 @@
-# Delete a Book
+# Deleting a Book from the Bookshelf
 
-To delete a book from the bookshelf, follow this example:
+To delete a book object from the database, first import the `Book` model, then use the `.delete()` method.
 
 ```python
-bookshelf = [
-    {"title": "Nineteen Eighty-Four", "author": "George Orwell"},
-    {"title": "Animal Farm", "author": "George Orwell"},
-]
+from bookshelf.models import Book
 
-# Delete the book "Nineteen Eighty-Four"
-bookshelf = [book for book in bookshelf if book["title"] != "Nineteen Eighty-Four"]
+# Get the book you want to delete
+book = Book.objects.get(title="Nineteen Eighty-Four")
 
-print("Updated bookshelf:", bookshelf)
+# Delete the book
+book.delete()
