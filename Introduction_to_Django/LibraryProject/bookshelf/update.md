@@ -1,15 +1,8 @@
 # Update a Book
 
+To update an existing book in the bookshelf, modify its fields using the update command.
+
 ```python
-from bookshelf.models import Book
-
-# Retrieve the book
-book = Book.objects.get(title="Nineteen Eighty-Four") 
-# Update fields
-book.author = "Eric Arthur Blair"
-book.publication_year = 1950
-book.save()
-
-# Check updated record
-Book.objects.all()
-# <QuerySet [<Book: 1984 by Eric Arthur Blair (1950)>]>
+book = bookshelf.get("1984")
+book.title = "Nineteen Eighty-Four"
+bookshelf.update(book)
