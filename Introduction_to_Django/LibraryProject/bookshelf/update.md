@@ -4,8 +4,7 @@
 from bookshelf.models import Book
 
 # Retrieve the book
-book = Book.objects.get(title="1984")
-
+book = Book.objects.get(title="Nineteen Eighty-Four") 
 # Update fields
 book.author = "Eric Arthur Blair"
 book.publication_year = 1950
