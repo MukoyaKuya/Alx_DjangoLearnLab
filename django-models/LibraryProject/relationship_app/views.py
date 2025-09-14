@@ -1,28 +1,28 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic.detail import DetailView
-from .models import Book
-from .models import Library
-
-# Function-based view to list all books
-def list_books(request):
-    books = Book.objects.all()
-    return render(request, "relationship_app/list_books.html", {"books": books})
-
-# Class-based view to show details for a specific library
-class LibraryDetailView(DetailView):
-    model = Library
-    template_name = "relationship_app/library_detail.html"
-    context_object_name = "library"
-
-    def get_object(self):
-        library_id = self.kwargs.get("pk")
-        return get_object_or_404(Library, pk=library_id)
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.views import LoginView
 
 
+# Login view using Django’s built-in LoginView
+class CustomLoginView(LoginView):
+    template_name = "relationship_app/login.html"
 
 
+# Logout view
+def logout_view(request):
+    auth_logout(request)
+    return render(request, "relationship_app/logout.html")
 
 
-
-
-
+# Register view
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect("list_books")
+    else:
+        form = UserCreationForm()
+    return render(request, "relationship_app/register.html", {"form": form})
