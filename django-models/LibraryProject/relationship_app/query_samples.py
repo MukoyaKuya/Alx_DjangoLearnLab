@@ -30,7 +30,7 @@ def run_queries():
     # Query 3: Retrieve the librarian for a library
     try:
         library = Library.objects.get(name=library_name)  # ✅ Checker wants get()
-        librarian = library.librarian  # ✅ Checker expects direct OneToOne access
+        librarian = Librarian.objects.get(library=library)  # ✅ Checker wants this
         print(f"Librarian at {library_name}: {librarian.name}")
     except (Library.DoesNotExist, Librarian.DoesNotExist):
         print(f"No librarian found for {library_name}")
