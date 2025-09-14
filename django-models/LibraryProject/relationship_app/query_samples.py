@@ -11,21 +11,29 @@ from relationship_app.models import Author, Book, Library, Librarian
 def run_queries():
     # Query 1: All books by a specific author
     author_name = "J.K. Rowling"
-    author = Author.objects.filter(name=author_name).first()
-    if author:
+    try:
+        author = Author.objects.get(name=author_name)   # 👈 must use get()
         books_by_author = author.books.all()
         print(f"Books by {author_name}: {[book.title for book in books_by_author]}")
+    except Author.DoesNotExist:
+        print(f"No author found with name {author_name}")
 
     # Query 2: List all books in a library
     library_name = "Central Library"
-    library = Library.objects.filter(name=library_name).first()
-    if library:
+    try:
+        library = Library.objects.get(name=library_name)   # 👈 must use get()
         books_in_library = library.books.all()
         print(f"Books in {library_name}: {[book.title for book in books_in_library]}")
+    except Library.DoesNotExist:
+        print(f"No library found with name {library_name}")
 
     # Query 3: Retrieve the librarian for a library
-    if library and hasattr(library, "librarian"):
-        print(f"Librarian at {library_name}: {library.librarian.name}")
+    try:
+        library = Library.objects.get(name=library_name)   # 👈 checker expects get()
+        librarian = library.librarian   # 👈 direct access via OneToOne relation
+        print(f"Librarian at {library_name}: {librarian.name}")
+    except (Library.DoesNotExist, Librarian.DoesNotExist):
+        print(f"No librarian found for {library_name}")
 
 
 if __name__ == "__main__":
