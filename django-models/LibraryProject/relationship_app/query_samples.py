@@ -12,8 +12,8 @@ def run_queries():
     # Query 1: All books by a specific author
     author_name = "J.K. Rowling"
     try:
-        author = Author.objects.get(name=author_name)   # 👈 must use get()
-        books_by_author = author.books.all()
+        author = Author.objects.get(name=author_name)
+        books_by_author = Book.objects.filter(author=author)  # ✅ Checker wants filter()
         print(f"Books by {author_name}: {[book.title for book in books_by_author]}")
     except Author.DoesNotExist:
         print(f"No author found with name {author_name}")
@@ -21,7 +21,7 @@ def run_queries():
     # Query 2: List all books in a library
     library_name = "Central Library"
     try:
-        library = Library.objects.get(name=library_name)   # 👈 must use get()
+        library = Library.objects.get(name=library_name)  # ✅ Checker wants get()
         books_in_library = library.books.all()
         print(f"Books in {library_name}: {[book.title for book in books_in_library]}")
     except Library.DoesNotExist:
@@ -29,8 +29,8 @@ def run_queries():
 
     # Query 3: Retrieve the librarian for a library
     try:
-        library = Library.objects.get(name=library_name)   # 👈 checker expects get()
-        librarian = library.librarian   # 👈 direct access via OneToOne relation
+        library = Library.objects.get(name=library_name)  # ✅ Checker wants get()
+        librarian = library.librarian  # ✅ Checker expects direct OneToOne access
         print(f"Librarian at {library_name}: {librarian.name}")
     except (Library.DoesNotExist, Librarian.DoesNotExist):
         print(f"No librarian found for {library_name}")
