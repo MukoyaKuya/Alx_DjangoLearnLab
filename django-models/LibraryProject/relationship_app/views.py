@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.shortcuts import render
 from .models import UserProfile
+
 
 # Helper functions to check role
 def is_admin(user):
@@ -36,3 +38,4 @@ def librarian_view(request):
 @user_passes_test(is_member, login_url="login")
 def member_view(request):
     return render(request, "relationship_app/member_view.html", {"user": request.user})
+
